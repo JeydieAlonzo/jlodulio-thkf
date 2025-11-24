@@ -3,23 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Post</title>
+    <title>Document</title>
 </head>
 <body>
-    <h1>Edit Post</h1>
+    <h1>Create New Post</h1>
     
-    <form method="POST" action="{{ route('posts.update', $post->id) }}">
+    <form method="POST" action="{{ route('posts.store') }}">
         @csrf
-        @method('PUT') <!-- tells Laravel to treat this as a PUT request -->
-        
         <label>Title:</label>
-        <input type="text" id="title" name="title" value="{{ old('title', $post->title) }}">
+        <input type="text" id="title" name="title" value="{{ old('title') }}">
         <!-- Added old() helper to retain input text if when an error is made -->
         
         <label>Body:</label>
-        <textarea id="body" name="body">{{ old('body', $post->body) }}</textarea>
+        <textarea id="body" name="body">{{ old('body') }}</textarea>
         
-        <button type="submit">Update</button>
+        <button type="submit">Save</button>
     </form>
     @if ($errors->any())
         <div>
@@ -29,6 +27,5 @@
                 @endforeach
             </ul>
         </div>
-    @endif
 </body>
 </html>

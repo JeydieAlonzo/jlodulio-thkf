@@ -61,7 +61,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        validated = $request->validate([
+        $validated = $request->validate([
             'title' => 'required',
             'body' => 'required',
         ]);
@@ -71,13 +71,16 @@ class PostController extends Controller
 
         return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
-    }
+    
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id); // Fetch the post by ID
+        $post->delete(); // Delete the post
+
+        return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
     }
 }
