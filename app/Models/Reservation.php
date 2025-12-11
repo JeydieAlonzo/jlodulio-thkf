@@ -40,7 +40,6 @@ public function user()
     {
         return $this->belongsTo(Resource::class, 'resource_id');
     }
-
+*/
 
 }
-*/
