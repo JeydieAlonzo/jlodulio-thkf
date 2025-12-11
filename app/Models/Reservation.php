@@ -35,6 +35,7 @@ public function user()
     }
 */
 
+/* remember to make the relationship work again, create resource model
     public function resource(): BelongsTo
     {
         return $this->belongsTo(Resource::class, 'resource_id');
@@ -42,3 +43,4 @@ public function user()
 
 
 }
+*/
