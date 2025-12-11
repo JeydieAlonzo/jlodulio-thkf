@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
 
 Route::view('/', 'welcome');
 
@@ -13,6 +12,7 @@ Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');
 
-Route::resource('posts', PostController::class);
+Route::resource('reservations', App\Http\Controllers\ReservationController::class)
+    ->middleware(['auth']);
 
 require __DIR__.'/auth.php';
