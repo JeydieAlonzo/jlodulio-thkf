@@ -18,28 +18,28 @@ class Reservation extends Model
         'student_user_id',
         'resource_id',
         'schedule_id',
-        'reservation_date'
+        'reservation_date',
+        'reservation_description',
+        'reservation_start_time',
+        'reservation_end_time',
+        'librarian_user_id',
     ];
 
 public function user()
-{
+    {
     // usage: $reservation->user
     return $this->belongsTo(User::class, 'student_user_id'); 
-}
-
-/* remember to make the relationship work again, create schedule model
-
-    public function schedule(): BelongsTo
-    {
-        return $this->belongsTo(Schedule::class, 'schedule_id');
     }
-*/
 
-/* remember to make the relationship work again, create resource model
-    public function resource(): BelongsTo
+public function schedule()
     {
+    return $this->belongsTo(Schedule::class, 'schedule_id');
+    }
+
+
+public function resource(): BelongsTo
+ {
         return $this->belongsTo(Resource::class, 'resource_id');
     }
-*/
 
 }

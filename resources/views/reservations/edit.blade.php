@@ -1,56 +1,75 @@
-<form action="{{ route('reservations.update', ['reservation' => $reservation->id]) }}" method="post" class="max-w-md mx-auto p-4 bg-white shadow rounded-lg">
-    @csrf
-    @method('PUT')
+<x-app-layout>
+    <div class="max-w-2xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg p-6">
+            <h2 class="text-2xl font-bold mb-6">Manage Reservation #{{ $reservation->id }}</h2>
 
-{{-- 1. RESOURCE SELECTION --}}
-<div class="mb-4">
-    <label for="resource_id" class="block font-medium text-sm text-gray-700">Type of Reservation:</label>
-    <select name="resource_id" id="resource_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" required>
-        {{-- Keep the placeholder generic --}}
-        <option value="" disabled>Select a resource...</option>
-        
-        {{-- Check if the saved ID matches '1', if yes, print 'selected' --}}
-        <option value="1" {{ $reservation->resource_id == 1 ? 'selected' : '' }}>
-            Chairs
-        </option>
-        
-        <option value="2" {{ $reservation->resource_id == 2 ? 'selected' : '' }}>
-            Material Use
-        </option>
-    </select>
-</div>
+            <form action="{{ route('reservations.update', $reservation->id) }}" method="POST">
+                @csrf
+                @method('PUT')
 
-{{-- 2. TIME SLOT SELECTION --}}
-<div class="mb-4">
-    <label for="schedule_id" class="block font-medium text-sm text-gray-700">Time Slot:</label>
-    <select name="schedule_id" id="schedule_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" required>
-        <option value="" disabled>Select a time...</option>
-        
-        <option value="1" {{ $reservation->schedule_id == 1 ? 'selected' : '' }}>
-            8:00 AM - 11:00 AM
-        </option>
-        
-        <option value="2" {{ $reservation->schedule_id == 2 ? 'selected' : '' }}>
-            11:00 AM - 2:00 PM
-        </option>
-        
-        <option value="3" {{ $reservation->schedule_id == 3 ? 'selected' : '' }}>
-            2:00 PM - 5:00 PM
-        </option>
-    </select>
-</div>
+                {{-- READ ONLY INFO (Student Name, Scheduled Date, etc.) --}}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500">Student Name</label>
+                        <input type="text" value="{{ $reservation->user->name }}" disabled 
+                            class="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500">Scheduled Date</label>
+                        <input type="text" value="{{ $reservation->reservation_date }}" disabled 
+                            class="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm">
+                    </div>
+                </div>
 
-    {{-- 3. DATE SELECTION --}}
-    <div class="mb-4">
-        <label for="reservation_date" class="block font-medium text-sm text-gray-700">Reservation Date:</label>
-        <input type="date" id="reservation_date" value="{{ $reservation->reservation_date }}" name="reservation_date" 
-               class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" 
-               required>
+                <hr class="my-6">
+
+                {{-- LIBRARIAN CONTROLS --}}
+                <div class="space-y-4">
+                    
+                    {{-- 1. Status Dropdown --}}
+                    <div>
+                        <label for="status" class="block text-sm font-bold text-gray-700">Update Status</label>
+                        <select name="status" id="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <option value="pending" {{ $reservation->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="approved" {{ $reservation->status == 'approved' ? 'selected' : '' }}>Approved</option>
+                            <option value="declined" {{ $reservation->status == 'declined' ? 'selected' : '' }}>Declined</option>
+                            <option value="cancelled" {{ $reservation->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                        </select>
+                    </div>
+
+                    {{-- 2. NEW: Actual Session Time Tracking --}}
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="reservation_start_time" class="block text-sm font-bold text-gray-700">Actual Start Time</label>
+                            <input type="time" name="reservation_start_time" id="reservation_start_time" 
+                                value="{{ $reservation->reservation_start_time }}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label for="reservation_end_time" class="block text-sm font-bold text-gray-700">Actual End Time</label>
+                            <input type="time" name="reservation_end_time" id="reservation_end_time" 
+                                value="{{ $reservation->reservation_end_time }}"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                    </div>
+
+                    {{-- 3. Notes --}}
+                    <div>
+                        <label for="reservation_description" class="block text-sm font-bold text-gray-700">Librarian Notes</label>
+                        <textarea name="reservation_description" id="reservation_description" rows="3" 
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            placeholder="Add notes...">{{ $reservation->reservation_description }}</textarea>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end mt-6">
+                    <a href="{{ route('reservations.index') }}" class="text-gray-600 underline mr-4">Cancel</a>
+                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow">
+                        Update Session
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </div>
-
-    <div class="flex items-center justify-end mt-4">
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Update Reservation
-        </button>
-    </div>
-</form>
+</x-app-layout>
