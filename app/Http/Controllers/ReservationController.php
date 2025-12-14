@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Resource; // <--- ADD THIS LINE (Fixes the error)
-use App\Models\Schedule; // <--- ADD THIS LINE (Fixes the error)
-use App\Models\Section; // <--- ADD THIS LINE (For section filtering)
+use Illuminate\Support\Facades\Auth; // <--- Added this line for Authenticated User handling like when creating a reservation the student_user_id is set to Auth::id()
+use App\Models\Resource; // <--- Added this line because data from Resource in its model is needed through foreign keys and relationships
+use App\Models\Schedule; // <--- Added this line because data from Schedule in its model is needed through foreign keys and relationships
+use App\Models\Section; // <--- Added this line to reference Section model
 use Carbon\Carbon; // <--- ADD THIS LINE (For date-time handling)
 
 class ReservationController extends Controller
@@ -18,29 +18,27 @@ class ReservationController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        
-        // Start the query
+
         $query = \App\Models\Reservation::with(['schedule', 'resource']);
 
-        // --- FILTER LOGIC ---
+        // catches the section_id from the URL if present
         
-        // 1. Check if 'section_id' is passed in the URL (from the Librarian button)
+        // 1. Check if 'section_id' is passed in the URL for filtering
         if ($request->has('section_id')) {
             $sectionId = $request->input('section_id');
             
-            // Find reservations where the RESOURCE belongs to this SECTION
             $query->whereHas('resource', function($q) use ($sectionId) {
                 $q->where('section_id', $sectionId);
             });
         }
 
-        // --- ROLE LOGIC ---
+        // 2. Usertype-based filtering that applies to ALL views
 
         if ($user->usertype_id == 1) {
-            // Students: ONLY see their own
+            // Students should only see their own reservations
             $query->where('student_user_id', $user->id);
         } 
-        // Librarians (ID 2): They see everything, OR the filtered list above if they clicked a section.
+        // Librarians (ID 2): They see everything if they went to '/reservations', OR the filtered list above if they clicked a section.
 
         $reservations = $query->orderBy('reservation_date', 'desc')->get();
 

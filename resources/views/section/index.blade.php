@@ -24,4 +24,6 @@
     </div>
 </div>
 
+<!-- I think this didn't get used because it's already covered in dashboard.blade.php -->
+
 </x-app-layout>

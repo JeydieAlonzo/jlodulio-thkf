@@ -1,5 +1,7 @@
 <?php
 
+// I made this to catch the relationships between Resourcce and Section and Reservation.
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
