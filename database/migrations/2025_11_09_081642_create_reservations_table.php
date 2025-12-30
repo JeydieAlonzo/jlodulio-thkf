@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes();
-            $table->dateTimeTz('reservation_start_time')->notNullable();
-            $table->dateTimeTz('reservation_end_time')->notNullable();
+            $table->time('reservation_start_time')->nullable();
+            $table->time('reservation_end_time')->nullable();
             $table->timestamp('reservation_updated_at')->useCurrent()->useCurrentOnUpdate();
             $table->enum('status', ['pending', 'approved', 'declined', 'ongoing', 'canceled'])->notNullable()->default('pending');
             $table->text('reservation_description')->nullable();

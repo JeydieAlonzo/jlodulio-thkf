@@ -18,8 +18,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes();
-            $table->dateTimeTz('start_time')->notNullable();
-            $table->dateTimeTz('end_time')->notNullable();
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
         });
 
         Schema::dropIfExists('usertypes');
