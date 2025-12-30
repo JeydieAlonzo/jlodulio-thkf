@@ -20,7 +20,7 @@ The University of the Philippines Diliman Main Library currently utilizes a digi
 ### Latest Update (v2.01)
 **Enhanced Administrative Control:** We have introduced a fully privileged **Administrator Role** with complete CRUD (Create, Read, Update, Delete) capabilities across all system tables. This update allows for unrestricted management of users, schedules, resources, and reservation records directly from the unified dashboard.
 
-
+https://github.com/user-attachments/assets/9007380f-d35c-4949-99b4-a78641ef5b3c
 
 ---
 
