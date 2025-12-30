@@ -4,12 +4,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Resource extends Model
 {
+
+    use HasFactory, SoftDeletes;
+
     protected $table = 'resources';
 
     protected $fillable = [
@@ -17,12 +22,12 @@ class Resource extends Model
         'resource_name',
         'description',
         'availability',
-        'Section_section_id',
+        'section_id',
     ];
 
     public function section(): BelongsTo
     {
-        return $this->belongsTo(Section::class, 'Section_section_id', 'section_id');
+        return $this->belongsTo(Section::class, 'section_id', 'id')->withTrashed();
     }
 
     public function reservations(): HasMany

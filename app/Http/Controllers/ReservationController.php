@@ -170,8 +170,17 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
+        // 1. SECURITY: Only Admins (Type 3) can delete
+        if (auth()->user()->usertype_id != 3) {
+            abort(403, 'Unauthorized. Only Administrators can delete reservations.');
+        }
+
+        // 2. Find and Delete
+        $reservation = \App\Models\Reservation::findOrFail($reservation->id);
         $reservation->delete();
-        return redirect()->route('reservations.index')->with('success', 'Reservation deleted successfully.');
+
+        return redirect()->route('reservations.index')
+        ->with('message', 'Reservation deleted successfully.');
     }
 
     public function cancel($id)

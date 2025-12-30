@@ -13,7 +13,7 @@
             
             {{-- HIDE THIS BUTTON if the user is NOT a student (ID 1) --}}
             @if(auth()->user()->usertype_id == 1)
-                <a href="{{ url('/#your-section-id') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow transition duration-150 ease-in-out">
+                <a href="{{ route('sections.index')}}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow transition duration-150 ease-in-out">
                     + Create New Reservation
                 </a>
             @endif
@@ -94,6 +94,18 @@
                                     @if(auth()->user()->usertype_id != 1)
                                         <form action="{{ route('reservations.edit', $reserve->id) }}" ...>
                                             <button>Edit</button>
+                                        </form>
+                                    @endif
+
+                                    {{-- Delete Button (Only for Admins) --}}
+
+                                    @if(auth()->user()->usertype_id == 3)
+                                    <form action="{{ route('reservations.destroy', $reserve->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to permanently delete this reservation? This cannot be undone.');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-900 font-bold">
+                                                Delete
+                                            </button>
                                         </form>
                                     @endif
                                     

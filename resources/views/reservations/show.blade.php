@@ -102,6 +102,17 @@
                         <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Edit</button>
                     </form>
                 @endif
+
+                {{-- DELETE BUTTON (Visible ONLY to Admin ID 3) --}}
+                @if(auth()->user()->usertype_id == 3)
+                    <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to PERMANENTLY delete this reservation?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded shadow hover:bg-red-700">
+                            Delete
+                        </button>
+                    </form>
+                @endif
                 
                 {{-- 5. Cancel Button: Uses the Logic from Index --}}
                 @php
