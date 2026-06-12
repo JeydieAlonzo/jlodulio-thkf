@@ -1,61 +1,109 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Aklat-taan: Learning Space Reservation System (LIS 162 Implementation)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Submitted by:** Jade Odulio (2020-01455)  
+**Course:** LIS 162: Systems Implementation  
+**Date:** December 2025
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Project Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This repository contains the source code and implementation details for the **Aklat-taan Learning Space Reservation System**. 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This project was developed in partial fulfillment of the requirements for the course **LIS 162 (Systems Implementation)** at the University of the Philippines Diliman. It serves as a fully functional **proof of concept** derived from the Systems Analysis and Design study conducted in the prerequisite course, **LIS 161**.
 
-## Learning Laravel
+### Context & Background
+The University of the Philippines Diliman Main Library currently utilizes a digital system known as *Aklat-taan* to manage facility reservations. In the previous phase of this study (LIS 161), an in-depth analysis of the existing system revealed specific usability bottlenecks, such as vague resource selection and the inability for users to cancel their own bookings. **This LIS 162 implementation re-engineers the core application to address these specific findings, proving that a more detailed, user-centric workflow is technically feasible.**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Latest Update (v2.01)
+**Enhanced Administrative Control:** We have introduced a fully privileged **Administrator Role** with complete CRUD (Create, Read, Update, Delete) capabilities across all system tables. This update allows for unrestricted management of users, schedules, resources, and reservation records directly from the unified dashboard.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+https://github.com/user-attachments/assets/9007380f-d35c-4949-99b4-a78641ef5b3c
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Key Features & Usability Improvements
 
-### Premium Partners
+Based on the LIS 161 recommendations, this implementation features:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+* **Detailed Resource Selection:** A new booking interface that allows users to select specific inventory items (e.g., "Discussion Room A", "Table 5") linked to specific library sections.
+* **Specification/Remarks Field:** An added input mechanism for users to specify details (e.g., "Need power outlet"), eliminating the need for pre-booking "reference interview" emails.
+* **Self-Service Cancellation:** A "Cancel" feature allowing students to retract pending requests immediately, updating the database in real-time.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Technical Stack
 
-## Code of Conduct
+* **Framework:** Laravel 12.x
+* **Language:** PHP 8.5
+* **Database:** MySQL (Relational Schema)
+* **Frontend:** Blade Templates, Tailwind CSS, Vite
+* **Authentication:** Laravel Breeze / Custom Role Management
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## Installation & Setup
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+To run this project locally for testing or grading purposes:
+
+1.  **Clone the Repository**
+    ```bash
+    git clone [https://github.com/your-username/aklat-taan-lis162.git](https://github.com/your-username/aklat-taan-lis162.git)
+    cd aklat-taan-lis162
+    ```
+
+2.  **Install Dependencies**
+    ```bash
+    composer install
+    npm install
+    ```
+
+3.  **Environment Configuration**
+    Copy the example environment file and configure your MySQL database credentials.
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+
+4.  **Database Setup**
+    Run the migrations to create the table structure (Users, UserTypes, Schedules, Sections, Resources, Reservations).
+    ```bash
+    php artisan migrate --seed
+    ```
+    *Note: The seeder will populate the database with default Admin, Librarian, and Student accounts.*
+
+5.  **Run the Application**
+    ```bash
+    npm run build
+    php artisan serve
+    ```
+    Access the system at `http://localhost:8000`.
+
+---
+
+## User Roles & Capabilities
+
+### Student (Client)
+* Log in via unified portal.
+* View available library sections.
+* Book specific resources with optional remarks.
+* Cancel pending reservations via the "My Bookings" dashboard.
+
+### Librarian
+* View incoming reservation requests filtered by their assigned Section.
+* Approve or Decline requests (triggering status updates).
+* Mark transactions as "Checked In" or "No Show".
+
+### Administrator
+* **Full CRUD Access:** Create, Read, Update, and Delete records across all tables (Users, Schedules, User Types, etc.).
+* **User Management:** Add users and assign User Types.
+* **System Config:** Add new Library Sections, Resources, and Timeslots (Schedules).
+* **Oversight:** Soft-delete reservation records for maintenance.
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
